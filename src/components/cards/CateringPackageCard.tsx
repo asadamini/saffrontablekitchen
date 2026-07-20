@@ -6,8 +6,7 @@ import {
   imgNewBiryaniTrays,
   imgCateringGold,
 } from "../../data/imageAssets";
-import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
-import { ImagePlaceholder, Badge } from "../shared";
+import { Badge } from "../shared";
 import { Check } from "lucide-react";
 
 const packageImages: Record<string, string> = {
@@ -20,20 +19,16 @@ const packageImages: Record<string, string> = {
 
 export default function CateringPackageCard({ pkg }: { pkg: CateringPackage }) {
   const isFeatured = pkg.badge === "MOST POPULAR" || pkg.badge === "BEST VALUE";
-  const image = packageImages[pkg.id];
+  const image = packageImages[pkg.id] ?? imgNewTrayBuffet;
 
   return (
     <div className={`rounded-sm overflow-hidden flex flex-col transition-all duration-200 ${
       isFeatured ? "bg-white ring-1 ring-[#D89A27] shadow-lg" : "bg-white/8 border border-white/12 hover:border-white/22"
     }`}>
       <div className="relative">
-        {image ? (
-          <div className="aspect-[4/3] overflow-hidden bg-[#DDD5C8]">
-            <ImageWithFallback src={image} alt={pkg.imageAlt} className="h-full w-full object-cover" />
-          </div>
-        ) : (
-          <ImagePlaceholder filename={pkg.imageSrc} alt={pkg.imageAlt} aspectRatio="4/3" className="rounded-none w-full" />
-        )}
+        <div className="aspect-[4/3] overflow-hidden bg-[#DDD5C8]">
+          <img src={image} alt={pkg.imageAlt} className="h-full w-full object-cover" loading="lazy" />
+        </div>
         {pkg.badge && <div className="absolute top-3 left-3"><Badge label={pkg.badge} /></div>}
       </div>
       <div className={`p-5 flex-1 flex flex-col ${isFeatured ? "text-[#2A1920]" : "text-white"}`}>
